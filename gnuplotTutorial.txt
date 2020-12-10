@@ -12,11 +12,156 @@ set output “sine.png”
 plot sin(x)
 
 #Ploting data from a file
-plot "file1.dat" using column1:column2 with points
-replot "file1.dat" using column1:column2 with lines
+#We want to plot the data from a file called file1.dat. Assume that the file has two coluns representing x and y. 
+plot "file1.dat"
+#This will plot the graph with the key/legend as file1.dat. To remove this use
+unset key
 
-replot "file1.dat" using column1:column2 with linespoints
+#To use a custom legend:
+set key
+plot "file1.dat" title "my plot" 
 
+#To change the type of the line style and color:
+plot "file1.dat" title "my plot" linetype 7 linecolor 0
+
+#To know about the numbers for the linetype and linecolor:
+test
+#The test command will show all the available options.
+#To connect the points with lines:
+plot "file1.dat" title "my plot" linetype 7 linecolor 0 with linepoints
+
+#We can shorten the commands as follows
+plot "file1.dat" title "my plot" lt 7 lc 0 w lp
+
+#The default option is points, so if we don't write anything, it will change back to points.
+plot "file1.dat" title "my plot" lt 7 lc 0
+
+#We can plot multiple plots together. Just type the data informations separated by a comma. Let's plot a sine fuction along with the same data.
+p "file1.dat" t "My first plot" lc 0 lt 7, 5*sin(x) lt 7 lc 1 t "sine function"
+
+#x and y range
+set xrange [-2: 12]
+set yrange [-5:10]
+replot
+
+#Axis title
+set xlabel "x-axis"
+set ylabel "y-axis"
+replot
+
+# save the figure file
+set terminal png size 800,600
+set output "myfirstfile.png"
+replot
+#We must type replot here otherwise there will be nothing in the file.
+#Reset the terminal type
+set term x11
+
+#We can do some arithmetic operations on the variables (columns) before ploting. Let's say we want to divide the y value by 2 and plot the x and y values.
+
+p "file1.dat" u 1:($2/2) t "My first plot" lc 0 lt 7, 5*sin(x) lt 7 lc 1 t "sine function"
+
+
+# We can shorten every command unless it conflicts with other command. As for example key can be just k, plot can be just p.
+p "file1.dat" t "my plot" lt 7 lc 0 w lp
+
+#We can plot only the lines connecting the points without shoing the points
+p "file1.dat" t "my plot" lt 7 lc 0 w l
+
+#If you have more than two columns in your data file, you can specify the columns.
+plot "file1.dat" using 1:2 with points
+replot "file1.dat" using 2:3 with lines
+
+#To reposition the key to the bottom left and enclose inside a box:
+set key bottom left box
+replot
+
+#If the key is ont displayed correctly, we can change the yrange
+set xrange [-5:15]
+set yrange [-8:10]
+replot
+
+#If the key/ledend box goes outside the box, use the following commands.
+set key width 5
+set key height 1
+
+#To change the font size
+set key font "14"
+replot
+
+#To change the font type
+set key font "Arial.14"
+replot
+
+#To set the grid on
+set grid
+
+#We can change the border style. If we just want the left and the bottom border. The borders have 1,2,4,8,16 for bottom, left, top, right and no effect. If we just want the bottom and the left border:
+
+set border 3
+
+#If we want no tics mirrored on the top and the right
+set tics nomirror 
+replot
+
+#Changing ticks: We can change where labels on the x and y axis appear . Let's say we want the tics appear at an interval of 1.
+set xtics -5,1,15
+replot
+
+set xtics ("0" 0, "mylabel" 2)
+replot
+
+set xtics ("0" 0, "pi/2" pi/2)
+replot
+
+#Size Ratio: If you want the graph to be a square
+set size ratio 1
+replot
+
+#To take the tics out
+set tics out
+replot
+
+#Vector Field: We want to draw the vector field from the data file vectorfield.dat.
+plot 'vectorfield.dat' using 1:2:3:4 with vectors
+
+#If we want to plot only every 2 data points
+plot 'vectorfield.dat' using 1:2:3:4 every 2 with vectors
+
+#Resize the arro length
+plot 'vectorfield.dat' using 1:2:($3/4):($4/4) every 2 with vectors
+
+#We can change the ratio and make it different.
+#Variables. 
+a=2
+show variables a
+#output: Variables beginning with a:
+# output: a = 2
+show variables pi
+
+#To change the font size of tics:
+set tics sacle 1.5
+
+#To reposition the key box:
+set key at -4,-7
+replot
+
+#To display the pi symbol in png image
+set term pngcairo
+set output "mygraph2.png"
+replot
+
+#Curve Fitting: Let's say we want to fit the data with a*sin(x). Gnuplot will give us the best value of a and least sauare error (lsr) or weighted least sauare error (wssr)
+f(x)=a*sin(x
+fit f(x) 'file1.dat' using 1:2 via a
+
+#Final set of parameters            Asymptotic Standard Error
+#=======================            ==========================
+#a               = 1.03061          +/- 1.19         (115.5%)
+# Obviously, this is not a good choice. But, we can check plotting the data file and the suggested function 
+
+
+plot 'file1.dat', 1.03061*sin(x)
 clear
 reset
 #log plot
@@ -89,7 +234,7 @@ set term gif animate delay 20
 set output "temperature.gif"
 do for[i=0:int(A_blocks-1)] {plot "weather_data1.txt" index i w lines lc 7 lw 2 title "Day ".(i+1) }
 
-#Open temperature.gif file from your directory.
+gnuplot to LaTex
 
 
 
