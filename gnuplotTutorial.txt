@@ -1,0 +1,100 @@
+Gnuplot tutorials
+#To change the directory to C:\<directoryname> just use
+#cd 'C:\<directoryname>'
+
+Simple Plot
+#For Cygwin in Windows:
+#Start Cygwin-X XWin server
+gnuplot
+Set term x11
+#Save the plot as a png file
+set output “sine.png”
+plot sin(x)
+
+#Ploting data from a file
+plot "file1.dat" using column1:column2 with points
+replot "file1.dat" using column1:column2 with lines
+
+replot "file1.dat" using column1:column2 with linespoints
+
+clear
+reset
+#log plot
+logplot
+
+set logscale y
+plot 'file'
+
+show logscale 
+
+#Contour Plot
+plot "fort.10" u 1:2:3 w image
+
+
+#Animated Plot
+#Make a directory gnuplot inside C drive. Change into that directory.
+gnuplot> cd 'C:\gnuplot'
+#We will animate a simple sine function. 
+f(x,t)=sin(x,t)
+f(x,t)=sin(x-t)
+set terminal gif animate delay 4
+
+##output message: Terminal type is now 'gif'Options are 'nocrop #enhanced animate delay 4 loop 0 nooptimize size 640,480 font #"/usr/share/fonts/dejavu/DejaVuSans.ttf,12.0" '
+
+set output "test.gif"
+set xrange [-20: 20]
+set yrange [-2: 2]
+do for [i=1:96] {plot f(x, i*0.1) }
+set samples 200
+set output "test2.gif"
+
+#output message: 96 frames in animation sequence
+#Open the file test2.gif and see the animation.
+
+#plot a data set
+#Download a temperature data from reference # 2 and save it as weather_data1.txt.
+
+gnuplot> unset xrange
+gnuplot> unset yrange
+gnuplot> stat "weather_data1.txt" name "A"
+
+#This will label the data name as A, which will be useful later.
+#output message: * FILE:
+#output message:   Records:           340
+#output message:   Out of range:        0
+#output message:   Invalid:             0
+#output message:   Header records:      0
+#output message:   Blank:               8
+#output message:   Data Blocks:         5
+
+#output message: * COLUMNS:
+#output message: Mean:              34.5000              8.5703
+#output message: Std Dev:           19.6278              6.9484
+#output message: Sample StdDev:     19.6567              6.9587
+#output message: Skewness:           0.0000              0.6109
+#output message: Kurtosis:           1.7995              2.3091
+#output message: Avg Dev:           17.0000              5.9507
+#output message: Sum:            11730.0000           2913.9000
+#output message: Sum Sq.:       535670.0000          41388.4336
+
+#To set the x and y range dynamics so that it changes as per the data:
+
+set xrange [A_min_x:A_max_x]
+set yrange [A_min_y-1:A_max_y+1]
+
+set term gif animate delay 20
+
+#output message: Terminal type is now 'gif'Options are 'nocrop enhanced animate delay 20 loop 0 nooptimize size 640,480 font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12.0" '
+
+set output "temperature.gif"
+do for[i=0:int(A_blocks-1)] {plot "weather_data1.txt" index i w lines lc 7 lw 2 title "Day ".(i+1) }
+
+gnuplot to LaTex
+
+
+
+Reference:
+1. https://www.youtube.com/watch?v=DF0dCOllLFI&feature=emb_logo
+2. National Centers for Environmental Information
+: https://www.ncdc.noaa.gov/crn/qcdatasets.html 
+3. http://lowrank.net/gnuplot/tics-e.html
