@@ -89,7 +89,7 @@ set term gif animate delay 20
 set output "temperature.gif"
 do for[i=0:int(A_blocks-1)] {plot "weather_data1.txt" index i w lines lc 7 lw 2 title "Day ".(i+1) }
 
-gnuplot to LaTex
+#Open temperature.gif file from your directory.
 
 
 
