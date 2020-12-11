@@ -9,7 +9,20 @@ gnuplot
 Set term x11
 #Save the plot as a png file
 set output “sine.png”
+
+#Plotting mathematical functions
 plot sin(x)
+
+clear
+Plot cos(x)*x**3
+
+#this graph can be made better by add more points to the graph.
+show samples
+#Increase the sample size.
+set samples 1000
+replot
+
+Reset
 
 #Ploting data from a file
 #We want to plot the data from a file called file1.dat. Assume that the file has two coluns representing x and y. 
@@ -172,7 +185,21 @@ plot 'file'
 
 show logscale 
 
-#Contour Plot
+#Contour Plot: See the codes in coutour.p
+
+reset
+set xrange [0:2*pi]
+set yrange [0:2*pi]
+set contour
+set isosamples 30
+set view map scale 0.5
+unset key
+unset surface
+f(x,y)=sin(x)*sin(y)+cos(y)
+splot f(x,y)
+
+
+#Another method is:
 plot "fort.10" u 1:2:3 w image
 
 #Surface Plot
