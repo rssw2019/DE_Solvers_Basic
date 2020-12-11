@@ -2,7 +2,7 @@ Gnuplot tutorials
 #To change the directory to C:\<directoryname> just use
 #cd 'C:\<directoryname>'
 
-Simple Plot
+#Simple Plot
 #For Cygwin in Windows:
 #Start Cygwin-X XWin server
 gnuplot
@@ -175,7 +175,10 @@ show logscale
 #Contour Plot
 plot "fort.10" u 1:2:3 w image
 
+#Surface Plot
+splot '<datafilename> using 1:2:3
 
+#Loading plot scripts: We can create a separate file containing all the plot scripts and load that in gnuplot. To do this, we need to create a file with extension .p, say, 'myplot.p' Write all the scripts needed to generate the graph in this file. To run the plot codes, type load 'myplot.p' from the gnuplot terminal, 
 #Animated Plot
 #Make a directory gnuplot inside C drive. Change into that directory.
 gnuplot> cd 'C:\gnuplot'
