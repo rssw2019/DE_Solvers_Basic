@@ -6,7 +6,9 @@
 !To compile the codes in cygwin: 
 !  gfortran fftw_1d.f95 -I/usr/include -lfftw3 -lm
 !To run run the executable:
-! ./a.exePROGRAM fft
+! ./a.exe
+
+PROGRAM fft
 
   IMPLICIT NONE
 
