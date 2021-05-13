@@ -1,5 +1,5 @@
 fileID = fopen('fort.200','r');
-formatSpec = '%d %d';
+formatSpec = '%f %f';
 sizeA = [2 Inf];
 A = fscanf(fileID,formatSpec,sizeA);
 plot(A(1,:),A(2,:))
